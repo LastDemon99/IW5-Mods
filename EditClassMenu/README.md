@@ -12,7 +12,7 @@ These are the simple steps to use the mod, if you have other mods you can downlo
 - Set dvar: fs_game mods/lb_server
 
 # <a name="download"></a>Download
-- Download Mod File: [IW5_EditClassMenu](https://github.com/LastDemon99/IW5_EditClassMenu/releases/download/v1.0.0/mods.rar)
+- Download Mod File: [IW5_EditClassMenu](https://github.com/LastDemon99/IW5_Mods/releases/download/edit-class-v1.0/EditClassMenu.rar)
 - Download [Source-Code](https://github.com/LastDemon99/IW5_EditClassMenu/archive/refs/heads/main.zip)
 
 # <a name="credits"></a>Credits
