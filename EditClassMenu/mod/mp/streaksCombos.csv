@@ -1,0 +1,28 @@
+,uav,airdrop_assault,ims,predator_missile,airdrop_sentry_minigun,precision_airstrike,helicopter,littlebird_flock,littlebird_support,remote_mortar,airdrop_remote_tank,ac130 ,helicopter_flares,airdrop_juggernaut,osprey_gunner,uav_support,counter_uav,deployable_vest,airdrop_trap,sam_turret,remote_uav,triple_uav,remote_mg_turret,stealth_airstrike,emp,airdrop_juggernaut_recon,escort_airdrop
+uav,,,,,,,,,,,,,,,,,,,,,,,,,,,
+airdrop_assault,,,,,,,,,,,,,,,,,,,,,,,,,,,
+ims,,,no,no,no,,,,,,,,,,,,,,,,,,,,,,
+predator_missile,,,no,no,no,,,,,,,,,,,,,,,,,,,,,,
+airdrop_sentry_minigun,,,no,no,no,,,,,,,,,,,,,,,,,,,,,,
+precision_airstrike,,,,,,,,,,,,,,,,,,,,,,,,,,,
+helicopter,,,,,,,,,,,,,,,,,,,,,,,,,,,
+littlebird_flock,,,,,,,,no,no,no,,,,,,,,,,,,,,,,,
+littlebird_support,,,,,,,,no,no,no,,,,,,,,,,,,,,,,,
+remote_mortar,,,,,,,,no,no,no,,,,,,,,,,,,,,,,,
+airdrop_remote_tank,,,,,,,,,,,,,,,,,,,,,,,,,,,
+ac130 ,,,,,,,,,,,,no,no,,,,,,,,,,,,,,
+helicopter_flares,,,,,,,,,,,,no,no,,,,,,,,,,,,,,
+airdrop_juggernaut,,,,,,,,,,,,,,,,,,,,,,,,,,,
+osprey_gunner,,,,,,,,,,,,,,,,,,,,,,,,,,,
+uav_support,,,,,,,,,,,,,,,,,,,,,,,,,,,
+counter_uav,,,,,,,,,,,,,,,,,no,no,no,,,,,,,,
+deployable_vest,,,,,,,,,,,,,,,,,no,no,no,,,,,,,,
+airdrop_trap,,,,,,,,,,,,,,,,,no,no,no,,,,,,,,
+sam_turret,,,,,,,,,,,,,,,,,,,,,,,,,,,
+remote_uav,,,,,,,,,,,,,,,,,,,,,,,,,,,
+triple_uav,,,,,,,,,,,,,,,,,,,,,,no,no,,,,
+remote_mg_turret,,,,,,,,,,,,,,,,,,,,,,no,no,,,,
+stealth_airstrike,,,,,,,,,,,,,,,,,,,,,,,,,,,
+emp,,,,,,,,,,,,,,,,,,,,,,,,,no,no,no
+airdrop_juggernaut_recon,,,,,,,,,,,,,,,,,,,,,,,,,no,no,no
+escort_airdrop,,,,,,,,,,,,,,,,,,,,,,,,,no,no,no

@@ -1,0 +1,27 @@
+{
+	menuDef
+	{
+        name "shop_menu"
+		rect 0 0 0 0 2 2
+		popup
+		outOfBoundsClick
+		legacySplitScreenScale
+		forecolor 1 1 1 1
+		focuscolor 1 1 1 1
+		exp rect x ( 0 - ( 350 * 0.5 ) )
+		exp rect y ( 0 - ( ( ( ( 23 * 1 ) + ( 16.367 * 0 ) ) + ( 7 * ( 20 + 2 ) ) + 5 ) * 0.5 ) )
+		exp rect w ( 350 )
+		exp rect h ( ( ( ( 23 * 1 ) + ( 16.367 * 0 ) ) + ( 7 * ( 20 + 2 ) ) + 5 ) )
+
+        itemDef
+		{
+			rect -1280 -480 2560 960 2 2
+			decoration
+			visible 1
+			style 3
+			forecolor 0 0 0 0.8
+			background "white"
+			textscale 0.55)
+		}
+    }
+}

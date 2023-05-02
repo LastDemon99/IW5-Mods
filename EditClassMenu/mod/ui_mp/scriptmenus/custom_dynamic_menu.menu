@@ -1,0 +1,1407 @@
+
+{
+
+    menuDef
+    {
+        name "custom_dynamic_menu"
+        rect 0 0 640 480 0 0;
+        forecolor 1 1 1 1
+        blurWorld 4.8
+    
+        onOpen
+        {
+            setLocalVarInt "ui_index" dvarInt( "ui_startIndex" );
+        }
+    
+        onEsc
+        {
+            scriptmenuresponse "back";
+        }
+    
+        itemDef
+        {
+            rect -64 -36 301.5 480 1 1
+            decoration
+            visible 1
+            style 3
+            forecolor 0 0 0 0.4
+            background "white"
+        }
+    
+        itemDef
+        {
+            rect 237.5 -236 13 680 1 1
+            decoration
+            visible 1
+            style 3
+            forecolor 1 1 1 0.75
+            background "navbar_edge"
+        }
+    
+        itemDef
+        {
+            rect -88 34.667 325.333 17.333 1 1
+            decoration
+            visible 1
+            style 3
+            background "navbar_selection_bar"
+            exp rect y ( 20 * localvarint("ui_index") + 34.667)
+            visible when ( localvarint("ui_index") >= 0 )
+        }
+    
+        itemDef
+        {
+            rect -88 52 325.333 8.666 1 1
+            decoration
+            visible 1
+            style 3
+            background "navbar_selection_bar_shadow"
+            exp rect y ( 20 * localvarint("ui_index") + 52)
+            visible when ( localvarint("ui_index") >= 0 )
+        }
+    
+        itemDef
+        {
+            rect -64 3 276.667 24.233 1 1
+            decoration
+            visible 1
+            style 1
+            forecolor 1 1 1 1
+            textfont 9
+            textalign 10
+            textscale 0.5
+            exp text ( dvarstring( "menu_title" ) )
+        }
+    
+        itemDef
+        {
+            rect -64 30 301.5 5.333 1 1
+            decoration
+            visible 1
+            style 3
+            forecolor 1 1 1 1
+            background "navbar_tick"
+            textscale 0.5
+        }
+    
+        itemDef
+        {
+            rect -64 33.334 301.5 5.333 1 1
+            decoration
+            visible 1
+            style 3
+            forecolor 1 1 1 1
+            background "navbar_tick"
+            textscale 0.5
+            visible when (dvarInt("optionType0") == 2 || dvarInt("optionType0") == 3 || dvarInt("optionType0") == 5)
+        }
+    
+        itemDef
+        {
+            rect -64 33.334 276.667 19.567 1 1
+            decoration
+            visible 1
+            style 1
+            forecolor 1 1 1 1
+            textfont 3
+            textalign 10
+            textscale 0.375
+            exp text ( dvarstring( "menu_option0" ) )
+            exp forecolor r ( select(dvarInt("optionType0") != 0 && dvarInt("optionType0") != 2, select(dvarInt("optionType0") != 1 && dvarInt("optionType0") != 3, 1, 1), 0) )
+            exp forecolor g ( select(dvarInt("optionType0") != 0 && dvarInt("optionType0") != 2, select(dvarInt("optionType0") != 1 && dvarInt("optionType0") != 3, 0.49, 1), 0) )
+            exp forecolor b ( select(dvarInt("optionType0") != 0 && dvarInt("optionType0") != 2, select(dvarInt("optionType0") != 1 && dvarInt("optionType0") != 3, 0, 1), 0) )
+            exp forecolor a ( 1 - ( ( localvarint("ui_index") == 0 ) * ( ( sin( localclientuimilliseconds( ) / 90 ) ) * 0.65 ) ) )
+            visible when ( ( dvarstring( "menu_option0" ) ) != "" )
+        }
+    
+        itemDef
+        {
+            rect -68 34.667 305.333 20 1 1
+            visible 1
+            type 1
+        
+            action
+            {
+                if (( dvarstring( "menu_option0" ) ) != "" && dvarInt("optionType0") != 0)
+                {
+                    scriptmenuresponse localvarint( "ui_index" );
+                    play "mouse_click";
+                }
+            }
+        
+            mouseEnter
+            {
+                if (( dvarstring( "menu_option0" ) ) != "")
+                {
+                    setLocalVarInt "ui_index" 0;
+                    play "mouse_over";
+                }
+                setdvar "ui_startIndex" 0;
+            }
+        
+            mouseExit
+            {
+                if (( dvarstring( "menu_option0" ) ) != "")
+                {
+                    play "mouse_over";
+                }
+                setLocalVarInt "ui_index" -1;
+                setdvar "ui_startIndex" -1;
+            }
+        }
+    
+        itemDef
+        {
+            rect -64 53.334 301.5 5.333 1 1
+            decoration
+            visible 1
+            style 3
+            forecolor 1 1 1 1
+            background "navbar_tick"
+            textscale 0.5
+            visible when (dvarInt("optionType1") == 2 || dvarInt("optionType1") == 3 || dvarInt("optionType1") == 5)
+        }
+    
+        itemDef
+        {
+            rect -64 53.334 276.667 19.567 1 1
+            decoration
+            visible 1
+            style 1
+            forecolor 1 1 1 1
+            textfont 3
+            textalign 10
+            textscale 0.375
+            exp text ( dvarstring( "menu_option1" ) )
+            exp forecolor r ( select(dvarInt("optionType1") != 0 && dvarInt("optionType1") != 2, select(dvarInt("optionType1") != 1 && dvarInt("optionType1") != 3, 1, 1), 0) )
+            exp forecolor g ( select(dvarInt("optionType1") != 0 && dvarInt("optionType1") != 2, select(dvarInt("optionType1") != 1 && dvarInt("optionType1") != 3, 0.49, 1), 0) )
+            exp forecolor b ( select(dvarInt("optionType1") != 0 && dvarInt("optionType1") != 2, select(dvarInt("optionType1") != 1 && dvarInt("optionType1") != 3, 0, 1), 0) )
+            exp forecolor a ( 1 - ( ( localvarint("ui_index") == 1 ) * ( ( sin( localclientuimilliseconds( ) / 90 ) ) * 0.65 ) ) )
+            visible when ( ( dvarstring( "menu_option1" ) ) != "" )
+        }
+    
+        itemDef
+        {
+            rect -68 54.667 305.333 20 1 1
+            visible 1
+            type 1
+        
+            action
+            {
+                if (( dvarstring( "menu_option1" ) ) != "" && dvarInt("optionType1") != 0)
+                {
+                    scriptmenuresponse localvarint( "ui_index" );
+                    play "mouse_click";
+                }
+            }
+        
+            mouseEnter
+            {
+                if (( dvarstring( "menu_option1" ) ) != "")
+                {
+                    setLocalVarInt "ui_index" 1;
+                    play "mouse_over";
+                }
+                setdvar "ui_startIndex" 1;
+            }
+        
+            mouseExit
+            {
+                if (( dvarstring( "menu_option1" ) ) != "")
+                {
+                    play "mouse_over";
+                }
+                setLocalVarInt "ui_index" -1;
+                setdvar "ui_startIndex" -1;
+            }
+        }
+    
+        itemDef
+        {
+            rect -64 73.334 301.5 5.333 1 1
+            decoration
+            visible 1
+            style 3
+            forecolor 1 1 1 1
+            background "navbar_tick"
+            textscale 0.5
+            visible when (dvarInt("optionType2") == 2 || dvarInt("optionType2") == 3 || dvarInt("optionType2") == 5)
+        }
+    
+        itemDef
+        {
+            rect -64 73.334 276.667 19.567 1 1
+            decoration
+            visible 1
+            style 1
+            forecolor 1 1 1 1
+            textfont 3
+            textalign 10
+            textscale 0.375
+            exp text ( dvarstring( "menu_option2" ) )
+            exp forecolor r ( select(dvarInt("optionType2") != 0 && dvarInt("optionType2") != 2, select(dvarInt("optionType2") != 1 && dvarInt("optionType2") != 3, 1, 1), 0) )
+            exp forecolor g ( select(dvarInt("optionType2") != 0 && dvarInt("optionType2") != 2, select(dvarInt("optionType2") != 1 && dvarInt("optionType2") != 3, 0.49, 1), 0) )
+            exp forecolor b ( select(dvarInt("optionType2") != 0 && dvarInt("optionType2") != 2, select(dvarInt("optionType2") != 1 && dvarInt("optionType2") != 3, 0, 1), 0) )
+            exp forecolor a ( 1 - ( ( localvarint("ui_index") == 2 ) * ( ( sin( localclientuimilliseconds( ) / 90 ) ) * 0.65 ) ) )
+            visible when ( ( dvarstring( "menu_option2" ) ) != "" )
+        }
+    
+        itemDef
+        {
+            rect -68 74.667 305.333 20 1 1
+            visible 1
+            type 1
+        
+            action
+            {
+                if (( dvarstring( "menu_option2" ) ) != "" && dvarInt("optionType2") != 0)
+                {
+                    scriptmenuresponse localvarint( "ui_index" );
+                    play "mouse_click";
+                }
+            }
+        
+            mouseEnter
+            {
+                if (( dvarstring( "menu_option2" ) ) != "")
+                {
+                    setLocalVarInt "ui_index" 2;
+                    play "mouse_over";
+                }
+                setdvar "ui_startIndex" 2;
+            }
+        
+            mouseExit
+            {
+                if (( dvarstring( "menu_option2" ) ) != "")
+                {
+                    play "mouse_over";
+                }
+                setLocalVarInt "ui_index" -1;
+                setdvar "ui_startIndex" -1;
+            }
+        }
+    
+        itemDef
+        {
+            rect -64 93.334 301.5 5.333 1 1
+            decoration
+            visible 1
+            style 3
+            forecolor 1 1 1 1
+            background "navbar_tick"
+            textscale 0.5
+            visible when (dvarInt("optionType3") == 2 || dvarInt("optionType3") == 3 || dvarInt("optionType3") == 5)
+        }
+    
+        itemDef
+        {
+            rect -64 93.334 276.667 19.567 1 1
+            decoration
+            visible 1
+            style 1
+            forecolor 1 1 1 1
+            textfont 3
+            textalign 10
+            textscale 0.375
+            exp text ( dvarstring( "menu_option3" ) )
+            exp forecolor r ( select(dvarInt("optionType3") != 0 && dvarInt("optionType3") != 2, select(dvarInt("optionType3") != 1 && dvarInt("optionType3") != 3, 1, 1), 0) )
+            exp forecolor g ( select(dvarInt("optionType3") != 0 && dvarInt("optionType3") != 2, select(dvarInt("optionType3") != 1 && dvarInt("optionType3") != 3, 0.49, 1), 0) )
+            exp forecolor b ( select(dvarInt("optionType3") != 0 && dvarInt("optionType3") != 2, select(dvarInt("optionType3") != 1 && dvarInt("optionType3") != 3, 0, 1), 0) )
+            exp forecolor a ( 1 - ( ( localvarint("ui_index") == 3 ) * ( ( sin( localclientuimilliseconds( ) / 90 ) ) * 0.65 ) ) )
+            visible when ( ( dvarstring( "menu_option3" ) ) != "" )
+        }
+    
+        itemDef
+        {
+            rect -68 94.667 305.333 20 1 1
+            visible 1
+            type 1
+        
+            action
+            {
+                if (( dvarstring( "menu_option3" ) ) != "" && dvarInt("optionType3") != 0)
+                {
+                    scriptmenuresponse localvarint( "ui_index" );
+                    play "mouse_click";
+                }
+            }
+        
+            mouseEnter
+            {
+                if (( dvarstring( "menu_option3" ) ) != "")
+                {
+                    setLocalVarInt "ui_index" 3;
+                    play "mouse_over";
+                }
+                setdvar "ui_startIndex" 3;
+            }
+        
+            mouseExit
+            {
+                if (( dvarstring( "menu_option3" ) ) != "")
+                {
+                    play "mouse_over";
+                }
+                setLocalVarInt "ui_index" -1;
+                setdvar "ui_startIndex" -1;
+            }
+        }
+    
+        itemDef
+        {
+            rect -64 113.334 301.5 5.333 1 1
+            decoration
+            visible 1
+            style 3
+            forecolor 1 1 1 1
+            background "navbar_tick"
+            textscale 0.5
+            visible when (dvarInt("optionType4") == 2 || dvarInt("optionType4") == 3 || dvarInt("optionType4") == 5)
+        }
+    
+        itemDef
+        {
+            rect -64 113.334 276.667 19.567 1 1
+            decoration
+            visible 1
+            style 1
+            forecolor 1 1 1 1
+            textfont 3
+            textalign 10
+            textscale 0.375
+            exp text ( dvarstring( "menu_option4" ) )
+            exp forecolor r ( select(dvarInt("optionType4") != 0 && dvarInt("optionType4") != 2, select(dvarInt("optionType4") != 1 && dvarInt("optionType4") != 3, 1, 1), 0) )
+            exp forecolor g ( select(dvarInt("optionType4") != 0 && dvarInt("optionType4") != 2, select(dvarInt("optionType4") != 1 && dvarInt("optionType4") != 3, 0.49, 1), 0) )
+            exp forecolor b ( select(dvarInt("optionType4") != 0 && dvarInt("optionType4") != 2, select(dvarInt("optionType4") != 1 && dvarInt("optionType4") != 3, 0, 1), 0) )
+            exp forecolor a ( 1 - ( ( localvarint("ui_index") == 4 ) * ( ( sin( localclientuimilliseconds( ) / 90 ) ) * 0.65 ) ) )
+            visible when ( ( dvarstring( "menu_option4" ) ) != "" )
+        }
+    
+        itemDef
+        {
+            rect -68 114.667 305.333 20 1 1
+            visible 1
+            type 1
+        
+            action
+            {
+                if (( dvarstring( "menu_option4" ) ) != "" && dvarInt("optionType4") != 0)
+                {
+                    scriptmenuresponse localvarint( "ui_index" );
+                    play "mouse_click";
+                }
+            }
+        
+            mouseEnter
+            {
+                if (( dvarstring( "menu_option4" ) ) != "")
+                {
+                    setLocalVarInt "ui_index" 4;
+                    play "mouse_over";
+                }
+                setdvar "ui_startIndex" 4;
+            }
+        
+            mouseExit
+            {
+                if (( dvarstring( "menu_option4" ) ) != "")
+                {
+                    play "mouse_over";
+                }
+                setLocalVarInt "ui_index" -1;
+                setdvar "ui_startIndex" -1;
+            }
+        }
+    
+        itemDef
+        {
+            rect -64 133.334 301.5 5.333 1 1
+            decoration
+            visible 1
+            style 3
+            forecolor 1 1 1 1
+            background "navbar_tick"
+            textscale 0.5
+            visible when (dvarInt("optionType5") == 2 || dvarInt("optionType5") == 3 || dvarInt("optionType5") == 5)
+        }
+    
+        itemDef
+        {
+            rect -64 133.334 276.667 19.567 1 1
+            decoration
+            visible 1
+            style 1
+            forecolor 1 1 1 1
+            textfont 3
+            textalign 10
+            textscale 0.375
+            exp text ( dvarstring( "menu_option5" ) )
+            exp forecolor r ( select(dvarInt("optionType5") != 0 && dvarInt("optionType5") != 2, select(dvarInt("optionType5") != 1 && dvarInt("optionType5") != 3, 1, 1), 0) )
+            exp forecolor g ( select(dvarInt("optionType5") != 0 && dvarInt("optionType5") != 2, select(dvarInt("optionType5") != 1 && dvarInt("optionType5") != 3, 0.49, 1), 0) )
+            exp forecolor b ( select(dvarInt("optionType5") != 0 && dvarInt("optionType5") != 2, select(dvarInt("optionType5") != 1 && dvarInt("optionType5") != 3, 0, 1), 0) )
+            exp forecolor a ( 1 - ( ( localvarint("ui_index") == 5 ) * ( ( sin( localclientuimilliseconds( ) / 90 ) ) * 0.65 ) ) )
+            visible when ( ( dvarstring( "menu_option5" ) ) != "" )
+        }
+    
+        itemDef
+        {
+            rect -68 134.667 305.333 20 1 1
+            visible 1
+            type 1
+        
+            action
+            {
+                if (( dvarstring( "menu_option5" ) ) != "" && dvarInt("optionType5") != 0)
+                {
+                    scriptmenuresponse localvarint( "ui_index" );
+                    play "mouse_click";
+                }
+            }
+        
+            mouseEnter
+            {
+                if (( dvarstring( "menu_option5" ) ) != "")
+                {
+                    setLocalVarInt "ui_index" 5;
+                    play "mouse_over";
+                }
+                setdvar "ui_startIndex" 5;
+            }
+        
+            mouseExit
+            {
+                if (( dvarstring( "menu_option5" ) ) != "")
+                {
+                    play "mouse_over";
+                }
+                setLocalVarInt "ui_index" -1;
+                setdvar "ui_startIndex" -1;
+            }
+        }
+    
+        itemDef
+        {
+            rect -64 153.334 301.5 5.333 1 1
+            decoration
+            visible 1
+            style 3
+            forecolor 1 1 1 1
+            background "navbar_tick"
+            textscale 0.5
+            visible when (dvarInt("optionType6") == 2 || dvarInt("optionType6") == 3 || dvarInt("optionType6") == 5)
+        }
+    
+        itemDef
+        {
+            rect -64 153.334 276.667 19.567 1 1
+            decoration
+            visible 1
+            style 1
+            forecolor 1 1 1 1
+            textfont 3
+            textalign 10
+            textscale 0.375
+            exp text ( dvarstring( "menu_option6" ) )
+            exp forecolor r ( select(dvarInt("optionType6") != 0 && dvarInt("optionType6") != 2, select(dvarInt("optionType6") != 1 && dvarInt("optionType6") != 3, 1, 1), 0) )
+            exp forecolor g ( select(dvarInt("optionType6") != 0 && dvarInt("optionType6") != 2, select(dvarInt("optionType6") != 1 && dvarInt("optionType6") != 3, 0.49, 1), 0) )
+            exp forecolor b ( select(dvarInt("optionType6") != 0 && dvarInt("optionType6") != 2, select(dvarInt("optionType6") != 1 && dvarInt("optionType6") != 3, 0, 1), 0) )
+            exp forecolor a ( 1 - ( ( localvarint("ui_index") == 6 ) * ( ( sin( localclientuimilliseconds( ) / 90 ) ) * 0.65 ) ) )
+            visible when ( ( dvarstring( "menu_option6" ) ) != "" )
+        }
+    
+        itemDef
+        {
+            rect -68 154.667 305.333 20 1 1
+            visible 1
+            type 1
+        
+            action
+            {
+                if (( dvarstring( "menu_option6" ) ) != "" && dvarInt("optionType6") != 0)
+                {
+                    scriptmenuresponse localvarint( "ui_index" );
+                    play "mouse_click";
+                }
+            }
+        
+            mouseEnter
+            {
+                if (( dvarstring( "menu_option6" ) ) != "")
+                {
+                    setLocalVarInt "ui_index" 6;
+                    play "mouse_over";
+                }
+                setdvar "ui_startIndex" 6;
+            }
+        
+            mouseExit
+            {
+                if (( dvarstring( "menu_option6" ) ) != "")
+                {
+                    play "mouse_over";
+                }
+                setLocalVarInt "ui_index" -1;
+                setdvar "ui_startIndex" -1;
+            }
+        }
+    
+        itemDef
+        {
+            rect -64 173.334 301.5 5.333 1 1
+            decoration
+            visible 1
+            style 3
+            forecolor 1 1 1 1
+            background "navbar_tick"
+            textscale 0.5
+            visible when (dvarInt("optionType7") == 2 || dvarInt("optionType7") == 3 || dvarInt("optionType7") == 5)
+        }
+    
+        itemDef
+        {
+            rect -64 173.334 276.667 19.567 1 1
+            decoration
+            visible 1
+            style 1
+            forecolor 1 1 1 1
+            textfont 3
+            textalign 10
+            textscale 0.375
+            exp text ( dvarstring( "menu_option7" ) )
+            exp forecolor r ( select(dvarInt("optionType7") != 0 && dvarInt("optionType7") != 2, select(dvarInt("optionType7") != 1 && dvarInt("optionType7") != 3, 1, 1), 0) )
+            exp forecolor g ( select(dvarInt("optionType7") != 0 && dvarInt("optionType7") != 2, select(dvarInt("optionType7") != 1 && dvarInt("optionType7") != 3, 0.49, 1), 0) )
+            exp forecolor b ( select(dvarInt("optionType7") != 0 && dvarInt("optionType7") != 2, select(dvarInt("optionType7") != 1 && dvarInt("optionType7") != 3, 0, 1), 0) )
+            exp forecolor a ( 1 - ( ( localvarint("ui_index") == 7 ) * ( ( sin( localclientuimilliseconds( ) / 90 ) ) * 0.65 ) ) )
+            visible when ( ( dvarstring( "menu_option7" ) ) != "" )
+        }
+    
+        itemDef
+        {
+            rect -68 174.667 305.333 20 1 1
+            visible 1
+            type 1
+        
+            action
+            {
+                if (( dvarstring( "menu_option7" ) ) != "" && dvarInt("optionType7") != 0)
+                {
+                    scriptmenuresponse localvarint( "ui_index" );
+                    play "mouse_click";
+                }
+            }
+        
+            mouseEnter
+            {
+                if (( dvarstring( "menu_option7" ) ) != "")
+                {
+                    setLocalVarInt "ui_index" 7;
+                    play "mouse_over";
+                }
+                setdvar "ui_startIndex" 7;
+            }
+        
+            mouseExit
+            {
+                if (( dvarstring( "menu_option7" ) ) != "")
+                {
+                    play "mouse_over";
+                }
+                setLocalVarInt "ui_index" -1;
+                setdvar "ui_startIndex" -1;
+            }
+        }
+    
+        itemDef
+        {
+            rect -64 193.334 301.5 5.333 1 1
+            decoration
+            visible 1
+            style 3
+            forecolor 1 1 1 1
+            background "navbar_tick"
+            textscale 0.5
+            visible when (dvarInt("optionType8") == 2 || dvarInt("optionType8") == 3 || dvarInt("optionType8") == 5)
+        }
+    
+        itemDef
+        {
+            rect -64 193.334 276.667 19.567 1 1
+            decoration
+            visible 1
+            style 1
+            forecolor 1 1 1 1
+            textfont 3
+            textalign 10
+            textscale 0.375
+            exp text ( dvarstring( "menu_option8" ) )
+            exp forecolor r ( select(dvarInt("optionType8") != 0 && dvarInt("optionType8") != 2, select(dvarInt("optionType8") != 1 && dvarInt("optionType8") != 3, 1, 1), 0) )
+            exp forecolor g ( select(dvarInt("optionType8") != 0 && dvarInt("optionType8") != 2, select(dvarInt("optionType8") != 1 && dvarInt("optionType8") != 3, 0.49, 1), 0) )
+            exp forecolor b ( select(dvarInt("optionType8") != 0 && dvarInt("optionType8") != 2, select(dvarInt("optionType8") != 1 && dvarInt("optionType8") != 3, 0, 1), 0) )
+            exp forecolor a ( 1 - ( ( localvarint("ui_index") == 8 ) * ( ( sin( localclientuimilliseconds( ) / 90 ) ) * 0.65 ) ) )
+            visible when ( ( dvarstring( "menu_option8" ) ) != "" )
+        }
+    
+        itemDef
+        {
+            rect -68 194.667 305.333 20 1 1
+            visible 1
+            type 1
+        
+            action
+            {
+                if (( dvarstring( "menu_option8" ) ) != "" && dvarInt("optionType8") != 0)
+                {
+                    scriptmenuresponse localvarint( "ui_index" );
+                    play "mouse_click";
+                }
+            }
+        
+            mouseEnter
+            {
+                if (( dvarstring( "menu_option8" ) ) != "")
+                {
+                    setLocalVarInt "ui_index" 8;
+                    play "mouse_over";
+                }
+                setdvar "ui_startIndex" 8;
+            }
+        
+            mouseExit
+            {
+                if (( dvarstring( "menu_option8" ) ) != "")
+                {
+                    play "mouse_over";
+                }
+                setLocalVarInt "ui_index" -1;
+                setdvar "ui_startIndex" -1;
+            }
+        }
+    
+        itemDef
+        {
+            rect -64 213.334 301.5 5.333 1 1
+            decoration
+            visible 1
+            style 3
+            forecolor 1 1 1 1
+            background "navbar_tick"
+            textscale 0.5
+            visible when (dvarInt("optionType9") == 2 || dvarInt("optionType9") == 3 || dvarInt("optionType9") == 5)
+        }
+    
+        itemDef
+        {
+            rect -64 213.334 276.667 19.567 1 1
+            decoration
+            visible 1
+            style 1
+            forecolor 1 1 1 1
+            textfont 3
+            textalign 10
+            textscale 0.375
+            exp text ( dvarstring( "menu_option9" ) )
+            exp forecolor r ( select(dvarInt("optionType9") != 0 && dvarInt("optionType9") != 2, select(dvarInt("optionType9") != 1 && dvarInt("optionType9") != 3, 1, 1), 0) )
+            exp forecolor g ( select(dvarInt("optionType9") != 0 && dvarInt("optionType9") != 2, select(dvarInt("optionType9") != 1 && dvarInt("optionType9") != 3, 0.49, 1), 0) )
+            exp forecolor b ( select(dvarInt("optionType9") != 0 && dvarInt("optionType9") != 2, select(dvarInt("optionType9") != 1 && dvarInt("optionType9") != 3, 0, 1), 0) )
+            exp forecolor a ( 1 - ( ( localvarint("ui_index") == 9 ) * ( ( sin( localclientuimilliseconds( ) / 90 ) ) * 0.65 ) ) )
+            visible when ( ( dvarstring( "menu_option9" ) ) != "" )
+        }
+    
+        itemDef
+        {
+            rect -68 214.667 305.333 20 1 1
+            visible 1
+            type 1
+        
+            action
+            {
+                if (( dvarstring( "menu_option9" ) ) != "" && dvarInt("optionType9") != 0)
+                {
+                    scriptmenuresponse localvarint( "ui_index" );
+                    play "mouse_click";
+                }
+            }
+        
+            mouseEnter
+            {
+                if (( dvarstring( "menu_option9" ) ) != "")
+                {
+                    setLocalVarInt "ui_index" 9;
+                    play "mouse_over";
+                }
+                setdvar "ui_startIndex" 9;
+            }
+        
+            mouseExit
+            {
+                if (( dvarstring( "menu_option9" ) ) != "")
+                {
+                    play "mouse_over";
+                }
+                setLocalVarInt "ui_index" -1;
+                setdvar "ui_startIndex" -1;
+            }
+        }
+    
+        itemDef
+        {
+            rect -64 233.334 301.5 5.333 1 1
+            decoration
+            visible 1
+            style 3
+            forecolor 1 1 1 1
+            background "navbar_tick"
+            textscale 0.5
+            visible when (dvarInt("optionType10") == 2 || dvarInt("optionType10") == 3 || dvarInt("optionType10") == 5)
+        }
+    
+        itemDef
+        {
+            rect -64 233.334 276.667 19.567 1 1
+            decoration
+            visible 1
+            style 1
+            forecolor 1 1 1 1
+            textfont 3
+            textalign 10
+            textscale 0.375
+            exp text ( dvarstring( "menu_option10" ) )
+            exp forecolor r ( select(dvarInt("optionType10") != 0 && dvarInt("optionType10") != 2, select(dvarInt("optionType10") != 1 && dvarInt("optionType10") != 3, 1, 1), 0) )
+            exp forecolor g ( select(dvarInt("optionType10") != 0 && dvarInt("optionType10") != 2, select(dvarInt("optionType10") != 1 && dvarInt("optionType10") != 3, 0.49, 1), 0) )
+            exp forecolor b ( select(dvarInt("optionType10") != 0 && dvarInt("optionType10") != 2, select(dvarInt("optionType10") != 1 && dvarInt("optionType10") != 3, 0, 1), 0) )
+            exp forecolor a ( 1 - ( ( localvarint("ui_index") == 10 ) * ( ( sin( localclientuimilliseconds( ) / 90 ) ) * 0.65 ) ) )
+            visible when ( ( dvarstring( "menu_option10" ) ) != "" )
+        }
+    
+        itemDef
+        {
+            rect -68 234.667 305.333 20 1 1
+            visible 1
+            type 1
+        
+            action
+            {
+                if (( dvarstring( "menu_option10" ) ) != "" && dvarInt("optionType10") != 0)
+                {
+                    scriptmenuresponse localvarint( "ui_index" );
+                    play "mouse_click";
+                }
+            }
+        
+            mouseEnter
+            {
+                if (( dvarstring( "menu_option10" ) ) != "")
+                {
+                    setLocalVarInt "ui_index" 10;
+                    play "mouse_over";
+                }
+                setdvar "ui_startIndex" 10;
+            }
+        
+            mouseExit
+            {
+                if (( dvarstring( "menu_option10" ) ) != "")
+                {
+                    play "mouse_over";
+                }
+                setLocalVarInt "ui_index" -1;
+                setdvar "ui_startIndex" -1;
+            }
+        }
+    
+        itemDef
+        {
+            rect -64 253.334 301.5 5.333 1 1
+            decoration
+            visible 1
+            style 3
+            forecolor 1 1 1 1
+            background "navbar_tick"
+            textscale 0.5
+            visible when (dvarInt("optionType11") == 2 || dvarInt("optionType11") == 3 || dvarInt("optionType11") == 5)
+        }
+    
+        itemDef
+        {
+            rect -64 253.334 276.667 19.567 1 1
+            decoration
+            visible 1
+            style 1
+            forecolor 1 1 1 1
+            textfont 3
+            textalign 10
+            textscale 0.375
+            exp text ( dvarstring( "menu_option11" ) )
+            exp forecolor r ( select(dvarInt("optionType11") != 0 && dvarInt("optionType11") != 2, select(dvarInt("optionType11") != 1 && dvarInt("optionType11") != 3, 1, 1), 0) )
+            exp forecolor g ( select(dvarInt("optionType11") != 0 && dvarInt("optionType11") != 2, select(dvarInt("optionType11") != 1 && dvarInt("optionType11") != 3, 0.49, 1), 0) )
+            exp forecolor b ( select(dvarInt("optionType11") != 0 && dvarInt("optionType11") != 2, select(dvarInt("optionType11") != 1 && dvarInt("optionType11") != 3, 0, 1), 0) )
+            exp forecolor a ( 1 - ( ( localvarint("ui_index") == 11 ) * ( ( sin( localclientuimilliseconds( ) / 90 ) ) * 0.65 ) ) )
+            visible when ( ( dvarstring( "menu_option11" ) ) != "" )
+        }
+    
+        itemDef
+        {
+            rect -68 254.667 305.333 20 1 1
+            visible 1
+            type 1
+        
+            action
+            {
+                if (( dvarstring( "menu_option11" ) ) != "" && dvarInt("optionType11") != 0)
+                {
+                    scriptmenuresponse localvarint( "ui_index" );
+                    play "mouse_click";
+                }
+            }
+        
+            mouseEnter
+            {
+                if (( dvarstring( "menu_option11" ) ) != "")
+                {
+                    setLocalVarInt "ui_index" 11;
+                    play "mouse_over";
+                }
+                setdvar "ui_startIndex" 11;
+            }
+        
+            mouseExit
+            {
+                if (( dvarstring( "menu_option11" ) ) != "")
+                {
+                    play "mouse_over";
+                }
+                setLocalVarInt "ui_index" -1;
+                setdvar "ui_startIndex" -1;
+            }
+        }
+    
+        itemDef
+        {
+            rect -64 273.334 301.5 5.333 1 1
+            decoration
+            visible 1
+            style 3
+            forecolor 1 1 1 1
+            background "navbar_tick"
+            textscale 0.5
+            visible when (dvarInt("optionType12") == 2 || dvarInt("optionType12") == 3 || dvarInt("optionType12") == 5)
+        }
+    
+        itemDef
+        {
+            rect -64 273.334 276.667 19.567 1 1
+            decoration
+            visible 1
+            style 1
+            forecolor 1 1 1 1
+            textfont 3
+            textalign 10
+            textscale 0.375
+            exp text ( dvarstring( "menu_option12" ) )
+            exp forecolor r ( select(dvarInt("optionType12") != 0 && dvarInt("optionType12") != 2, select(dvarInt("optionType12") != 1 && dvarInt("optionType12") != 3, 1, 1), 0) )
+            exp forecolor g ( select(dvarInt("optionType12") != 0 && dvarInt("optionType12") != 2, select(dvarInt("optionType12") != 1 && dvarInt("optionType12") != 3, 0.49, 1), 0) )
+            exp forecolor b ( select(dvarInt("optionType12") != 0 && dvarInt("optionType12") != 2, select(dvarInt("optionType12") != 1 && dvarInt("optionType12") != 3, 0, 1), 0) )
+            exp forecolor a ( 1 - ( ( localvarint("ui_index") == 12 ) * ( ( sin( localclientuimilliseconds( ) / 90 ) ) * 0.65 ) ) )
+            visible when ( ( dvarstring( "menu_option12" ) ) != "" )
+        }
+    
+        itemDef
+        {
+            rect -68 274.66700000000003 305.333 20 1 1
+            visible 1
+            type 1
+        
+            action
+            {
+                if (( dvarstring( "menu_option12" ) ) != "" && dvarInt("optionType12") != 0)
+                {
+                    scriptmenuresponse localvarint( "ui_index" );
+                    play "mouse_click";
+                }
+            }
+        
+            mouseEnter
+            {
+                if (( dvarstring( "menu_option12" ) ) != "")
+                {
+                    setLocalVarInt "ui_index" 12;
+                    play "mouse_over";
+                }
+                setdvar "ui_startIndex" 12;
+            }
+        
+            mouseExit
+            {
+                if (( dvarstring( "menu_option12" ) ) != "")
+                {
+                    play "mouse_over";
+                }
+                setLocalVarInt "ui_index" -1;
+                setdvar "ui_startIndex" -1;
+            }
+        }
+    
+        itemDef
+        {
+            rect -64 293.334 301.5 5.333 1 1
+            decoration
+            visible 1
+            style 3
+            forecolor 1 1 1 1
+            background "navbar_tick"
+            textscale 0.5
+            visible when (dvarInt("optionType13") == 2 || dvarInt("optionType13") == 3 || dvarInt("optionType13") == 5)
+        }
+    
+        itemDef
+        {
+            rect -64 293.334 276.667 19.567 1 1
+            decoration
+            visible 1
+            style 1
+            forecolor 1 1 1 1
+            textfont 3
+            textalign 10
+            textscale 0.375
+            exp text ( dvarstring( "menu_option13" ) )
+            exp forecolor r ( select(dvarInt("optionType13") != 0 && dvarInt("optionType13") != 2, select(dvarInt("optionType13") != 1 && dvarInt("optionType13") != 3, 1, 1), 0) )
+            exp forecolor g ( select(dvarInt("optionType13") != 0 && dvarInt("optionType13") != 2, select(dvarInt("optionType13") != 1 && dvarInt("optionType13") != 3, 0.49, 1), 0) )
+            exp forecolor b ( select(dvarInt("optionType13") != 0 && dvarInt("optionType13") != 2, select(dvarInt("optionType13") != 1 && dvarInt("optionType13") != 3, 0, 1), 0) )
+            exp forecolor a ( 1 - ( ( localvarint("ui_index") == 13 ) * ( ( sin( localclientuimilliseconds( ) / 90 ) ) * 0.65 ) ) )
+            visible when ( ( dvarstring( "menu_option13" ) ) != "" )
+        }
+    
+        itemDef
+        {
+            rect -68 294.66700000000003 305.333 20 1 1
+            visible 1
+            type 1
+        
+            action
+            {
+                if (( dvarstring( "menu_option13" ) ) != "" && dvarInt("optionType13") != 0)
+                {
+                    scriptmenuresponse localvarint( "ui_index" );
+                    play "mouse_click";
+                }
+            }
+        
+            mouseEnter
+            {
+                if (( dvarstring( "menu_option13" ) ) != "")
+                {
+                    setLocalVarInt "ui_index" 13;
+                    play "mouse_over";
+                }
+                setdvar "ui_startIndex" 13;
+            }
+        
+            mouseExit
+            {
+                if (( dvarstring( "menu_option13" ) ) != "")
+                {
+                    play "mouse_over";
+                }
+                setLocalVarInt "ui_index" -1;
+                setdvar "ui_startIndex" -1;
+            }
+        }
+    
+        itemDef
+        {
+            rect -64 313.334 301.5 5.333 1 1
+            decoration
+            visible 1
+            style 3
+            forecolor 1 1 1 1
+            background "navbar_tick"
+            textscale 0.5
+            visible when (dvarInt("optionType14") == 2 || dvarInt("optionType14") == 3 || dvarInt("optionType14") == 5)
+        }
+    
+        itemDef
+        {
+            rect -64 313.334 276.667 19.567 1 1
+            decoration
+            visible 1
+            style 1
+            forecolor 1 1 1 1
+            textfont 3
+            textalign 10
+            textscale 0.375
+            exp text ( dvarstring( "menu_option14" ) )
+            exp forecolor r ( select(dvarInt("optionType14") != 0 && dvarInt("optionType14") != 2, select(dvarInt("optionType14") != 1 && dvarInt("optionType14") != 3, 1, 1), 0) )
+            exp forecolor g ( select(dvarInt("optionType14") != 0 && dvarInt("optionType14") != 2, select(dvarInt("optionType14") != 1 && dvarInt("optionType14") != 3, 0.49, 1), 0) )
+            exp forecolor b ( select(dvarInt("optionType14") != 0 && dvarInt("optionType14") != 2, select(dvarInt("optionType14") != 1 && dvarInt("optionType14") != 3, 0, 1), 0) )
+            exp forecolor a ( 1 - ( ( localvarint("ui_index") == 14 ) * ( ( sin( localclientuimilliseconds( ) / 90 ) ) * 0.65 ) ) )
+            visible when ( ( dvarstring( "menu_option14" ) ) != "" )
+        }
+    
+        itemDef
+        {
+            rect -68 314.66700000000003 305.333 20 1 1
+            visible 1
+            type 1
+        
+            action
+            {
+                if (( dvarstring( "menu_option14" ) ) != "" && dvarInt("optionType14") != 0)
+                {
+                    scriptmenuresponse localvarint( "ui_index" );
+                    play "mouse_click";
+                }
+            }
+        
+            mouseEnter
+            {
+                if (( dvarstring( "menu_option14" ) ) != "")
+                {
+                    setLocalVarInt "ui_index" 14;
+                    play "mouse_over";
+                }
+                setdvar "ui_startIndex" 14;
+            }
+        
+            mouseExit
+            {
+                if (( dvarstring( "menu_option14" ) ) != "")
+                {
+                    play "mouse_over";
+                }
+                setLocalVarInt "ui_index" -1;
+                setdvar "ui_startIndex" -1;
+            }
+        }
+    
+        itemDef
+        {
+            rect -64 333.334 301.5 5.333 1 1
+            decoration
+            visible 1
+            style 3
+            forecolor 1 1 1 1
+            background "navbar_tick"
+            textscale 0.5
+            visible when (dvarInt("optionType15") == 2 || dvarInt("optionType15") == 3 || dvarInt("optionType15") == 5)
+        }
+    
+        itemDef
+        {
+            rect -64 333.334 276.667 19.567 1 1
+            decoration
+            visible 1
+            style 1
+            forecolor 1 1 1 1
+            textfont 3
+            textalign 10
+            textscale 0.375
+            exp text ( dvarstring( "menu_option15" ) )
+            exp forecolor r ( select(dvarInt("optionType15") != 0 && dvarInt("optionType15") != 2, select(dvarInt("optionType15") != 1 && dvarInt("optionType15") != 3, 1, 1), 0) )
+            exp forecolor g ( select(dvarInt("optionType15") != 0 && dvarInt("optionType15") != 2, select(dvarInt("optionType15") != 1 && dvarInt("optionType15") != 3, 0.49, 1), 0) )
+            exp forecolor b ( select(dvarInt("optionType15") != 0 && dvarInt("optionType15") != 2, select(dvarInt("optionType15") != 1 && dvarInt("optionType15") != 3, 0, 1), 0) )
+            exp forecolor a ( 1 - ( ( localvarint("ui_index") == 15 ) * ( ( sin( localclientuimilliseconds( ) / 90 ) ) * 0.65 ) ) )
+            visible when ( ( dvarstring( "menu_option15" ) ) != "" )
+        }
+    
+        itemDef
+        {
+            rect -68 334.66700000000003 305.333 20 1 1
+            visible 1
+            type 1
+        
+            action
+            {
+                if (( dvarstring( "menu_option15" ) ) != "" && dvarInt("optionType15") != 0)
+                {
+                    scriptmenuresponse localvarint( "ui_index" );
+                    play "mouse_click";
+                }
+            }
+        
+            mouseEnter
+            {
+                if (( dvarstring( "menu_option15" ) ) != "")
+                {
+                    setLocalVarInt "ui_index" 15;
+                    play "mouse_over";
+                }
+                setdvar "ui_startIndex" 15;
+            }
+        
+            mouseExit
+            {
+                if (( dvarstring( "menu_option15" ) ) != "")
+                {
+                    play "mouse_over";
+                }
+                setLocalVarInt "ui_index" -1;
+                setdvar "ui_startIndex" -1;
+            }
+        }
+    
+        itemDef
+        {
+            rect -64 353.334 301.5 5.333 1 1
+            decoration
+            visible 1
+            style 3
+            forecolor 1 1 1 1
+            background "navbar_tick"
+            textscale 0.5
+            visible when (dvarInt("optionType16") == 2 || dvarInt("optionType16") == 3 || dvarInt("optionType16") == 5)
+        }
+    
+        itemDef
+        {
+            rect -64 353.334 276.667 19.567 1 1
+            decoration
+            visible 1
+            style 1
+            forecolor 1 1 1 1
+            textfont 3
+            textalign 10
+            textscale 0.375
+            exp text ( dvarstring( "menu_option16" ) )
+            exp forecolor r ( select(dvarInt("optionType16") != 0 && dvarInt("optionType16") != 2, select(dvarInt("optionType16") != 1 && dvarInt("optionType16") != 3, 1, 1), 0) )
+            exp forecolor g ( select(dvarInt("optionType16") != 0 && dvarInt("optionType16") != 2, select(dvarInt("optionType16") != 1 && dvarInt("optionType16") != 3, 0.49, 1), 0) )
+            exp forecolor b ( select(dvarInt("optionType16") != 0 && dvarInt("optionType16") != 2, select(dvarInt("optionType16") != 1 && dvarInt("optionType16") != 3, 0, 1), 0) )
+            exp forecolor a ( 1 - ( ( localvarint("ui_index") == 16 ) * ( ( sin( localclientuimilliseconds( ) / 90 ) ) * 0.65 ) ) )
+            visible when ( ( dvarstring( "menu_option16" ) ) != "" )
+        }
+    
+        itemDef
+        {
+            rect -68 354.66700000000003 305.333 20 1 1
+            visible 1
+            type 1
+        
+            action
+            {
+                if (( dvarstring( "menu_option16" ) ) != "" && dvarInt("optionType16") != 0)
+                {
+                    scriptmenuresponse localvarint( "ui_index" );
+                    play "mouse_click";
+                }
+            }
+        
+            mouseEnter
+            {
+                if (( dvarstring( "menu_option16" ) ) != "")
+                {
+                    setLocalVarInt "ui_index" 16;
+                    play "mouse_over";
+                }
+                setdvar "ui_startIndex" 16;
+            }
+        
+            mouseExit
+            {
+                if (( dvarstring( "menu_option16" ) ) != "")
+                {
+                    play "mouse_over";
+                }
+                setLocalVarInt "ui_index" -1;
+                setdvar "ui_startIndex" -1;
+            }
+        }
+    
+        itemDef
+        {
+            rect -64 373.334 301.5 5.333 1 1
+            decoration
+            visible 1
+            style 3
+            forecolor 1 1 1 1
+            background "navbar_tick"
+            textscale 0.5
+            visible when (dvarInt("optionType17") == 2 || dvarInt("optionType17") == 3 || dvarInt("optionType17") == 5)
+        }
+    
+        itemDef
+        {
+            rect -64 373.334 276.667 19.567 1 1
+            decoration
+            visible 1
+            style 1
+            forecolor 1 1 1 1
+            textfont 3
+            textalign 10
+            textscale 0.375
+            exp text ( dvarstring( "menu_option17" ) )
+            exp forecolor r ( select(dvarInt("optionType17") != 0 && dvarInt("optionType17") != 2, select(dvarInt("optionType17") != 1 && dvarInt("optionType17") != 3, 1, 1), 0) )
+            exp forecolor g ( select(dvarInt("optionType17") != 0 && dvarInt("optionType17") != 2, select(dvarInt("optionType17") != 1 && dvarInt("optionType17") != 3, 0.49, 1), 0) )
+            exp forecolor b ( select(dvarInt("optionType17") != 0 && dvarInt("optionType17") != 2, select(dvarInt("optionType17") != 1 && dvarInt("optionType17") != 3, 0, 1), 0) )
+            exp forecolor a ( 1 - ( ( localvarint("ui_index") == 17 ) * ( ( sin( localclientuimilliseconds( ) / 90 ) ) * 0.65 ) ) )
+            visible when ( ( dvarstring( "menu_option17" ) ) != "" )
+        }
+    
+        itemDef
+        {
+            rect -68 374.66700000000003 305.333 20 1 1
+            visible 1
+            type 1
+        
+            action
+            {
+                if (( dvarstring( "menu_option17" ) ) != "" && dvarInt("optionType17") != 0)
+                {
+                    scriptmenuresponse localvarint( "ui_index" );
+                    play "mouse_click";
+                }
+            }
+        
+            mouseEnter
+            {
+                if (( dvarstring( "menu_option17" ) ) != "")
+                {
+                    setLocalVarInt "ui_index" 17;
+                    play "mouse_over";
+                }
+                setdvar "ui_startIndex" 17;
+            }
+        
+            mouseExit
+            {
+                if (( dvarstring( "menu_option17" ) ) != "")
+                {
+                    play "mouse_over";
+                }
+                setLocalVarInt "ui_index" -1;
+                setdvar "ui_startIndex" -1;
+            }
+        }
+    
+        itemDef
+        {
+            rect -64 393.334 301.5 5.333 1 1
+            decoration
+            visible 1
+            style 3
+            forecolor 1 1 1 1
+            background "navbar_tick"
+            textscale 0.5
+            visible when (dvarInt("optionType18") == 2 || dvarInt("optionType18") == 3 || dvarInt("optionType18") == 5)
+        }
+    
+        itemDef
+        {
+            rect -64 393.334 276.667 19.567 1 1
+            decoration
+            visible 1
+            style 1
+            forecolor 1 1 1 1
+            textfont 3
+            textalign 10
+            textscale 0.375
+            exp text ( dvarstring( "menu_option18" ) )
+            exp forecolor r ( select(dvarInt("optionType18") != 0 && dvarInt("optionType18") != 2, select(dvarInt("optionType18") != 1 && dvarInt("optionType18") != 3, 1, 1), 0) )
+            exp forecolor g ( select(dvarInt("optionType18") != 0 && dvarInt("optionType18") != 2, select(dvarInt("optionType18") != 1 && dvarInt("optionType18") != 3, 0.49, 1), 0) )
+            exp forecolor b ( select(dvarInt("optionType18") != 0 && dvarInt("optionType18") != 2, select(dvarInt("optionType18") != 1 && dvarInt("optionType18") != 3, 0, 1), 0) )
+            exp forecolor a ( 1 - ( ( localvarint("ui_index") == 18 ) * ( ( sin( localclientuimilliseconds( ) / 90 ) ) * 0.65 ) ) )
+            visible when ( ( dvarstring( "menu_option18" ) ) != "" )
+        }
+    
+        itemDef
+        {
+            rect -68 394.66700000000003 305.333 20 1 1
+            visible 1
+            type 1
+        
+            action
+            {
+                if (( dvarstring( "menu_option18" ) ) != "" && dvarInt("optionType18") != 0)
+                {
+                    scriptmenuresponse localvarint( "ui_index" );
+                    play "mouse_click";
+                }
+            }
+        
+            mouseEnter
+            {
+                if (( dvarstring( "menu_option18" ) ) != "")
+                {
+                    setLocalVarInt "ui_index" 18;
+                    play "mouse_over";
+                }
+                setdvar "ui_startIndex" 18;
+            }
+        
+            mouseExit
+            {
+                if (( dvarstring( "menu_option18" ) ) != "")
+                {
+                    play "mouse_over";
+                }
+                setLocalVarInt "ui_index" -1;
+                setdvar "ui_startIndex" -1;
+            }
+        }
+    
+        itemDef
+        {
+            rect -64 413.334 301.5 5.333 1 1
+            decoration
+            visible 1
+            style 3
+            forecolor 1 1 1 1
+            background "navbar_tick"
+            textscale 0.5
+            visible when (dvarInt("optionType19") == 2 || dvarInt("optionType19") == 3 || dvarInt("optionType19") == 5)
+        }
+    
+        itemDef
+        {
+            rect -64 413.334 276.667 19.567 1 1
+            decoration
+            visible 1
+            style 1
+            forecolor 1 1 1 1
+            textfont 3
+            textalign 10
+            textscale 0.375
+            exp text ( dvarstring( "menu_option19" ) )
+            exp forecolor r ( select(dvarInt("optionType19") != 0 && dvarInt("optionType19") != 2, select(dvarInt("optionType19") != 1 && dvarInt("optionType19") != 3, 1, 1), 0) )
+            exp forecolor g ( select(dvarInt("optionType19") != 0 && dvarInt("optionType19") != 2, select(dvarInt("optionType19") != 1 && dvarInt("optionType19") != 3, 0.49, 1), 0) )
+            exp forecolor b ( select(dvarInt("optionType19") != 0 && dvarInt("optionType19") != 2, select(dvarInt("optionType19") != 1 && dvarInt("optionType19") != 3, 0, 1), 0) )
+            exp forecolor a ( 1 - ( ( localvarint("ui_index") == 19 ) * ( ( sin( localclientuimilliseconds( ) / 90 ) ) * 0.65 ) ) )
+            visible when ( ( dvarstring( "menu_option19" ) ) != "" )
+        }
+    
+        itemDef
+        {
+            rect -68 414.66700000000003 305.333 20 1 1
+            visible 1
+            type 1
+        
+            action
+            {
+                if (( dvarstring( "menu_option19" ) ) != "" && dvarInt("optionType19") != 0)
+                {
+                    scriptmenuresponse localvarint( "ui_index" );
+                    play "mouse_click";
+                }
+            }
+        
+            mouseEnter
+            {
+                if (( dvarstring( "menu_option19" ) ) != "")
+                {
+                    setLocalVarInt "ui_index" 19;
+                    play "mouse_over";
+                }
+                setdvar "ui_startIndex" 19;
+            }
+        
+            mouseExit
+            {
+                if (( dvarstring( "menu_option19" ) ) != "")
+                {
+                    play "mouse_over";
+                }
+                setLocalVarInt "ui_index" -1;
+                setdvar "ui_startIndex" -1;
+            }
+        }
+    }
+}

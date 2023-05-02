@@ -1,0 +1,16 @@
+# RAWFILES
+rawfile,maps/mp/gametypes/_menus.gsc
+rawfile,maps/mp/dynamic_menu_utility.gsc
+rawfile,maps/mp/_lb_utility.gsc
+# -RAWFILES
+
+# STRINGTABLES
+stringtable,mp/editClassMenu.csv
+stringtable,mp/streaksCombos.csv
+# -STRINGTABLES
+
+# MENUS
+menufile,ui_mp/muteplayer.menu
+menufile,ui_mp/scriptmenus/custom_options.menu
+menufile,ui_mp/scriptmenus/custom_dynamic_menu.menu
+# -MENUS
