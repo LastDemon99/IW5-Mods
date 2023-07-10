@@ -6,3 +6,5 @@
 
 > self detachall();<br>
 > self attach("null_head", "", true);
+
+- Download Files: [Null Head Xmodel](https://github.com/LastDemon99/IW5_Mods/releases/download/null-headv1/null_head.rar)
