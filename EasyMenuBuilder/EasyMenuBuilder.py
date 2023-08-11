@@ -1,5 +1,5 @@
-dynamic_properties = ["exp_rect_x", "exp_rect_y", "exp_rect_h", "exp_rect_w", "exp_forecolor_r", "exp_forecolor_g", "exp_forecolor_b", "exp_forecolor_a", "exp_text", "exp_material"]
-item_actions = ["onOpen", "onClose", "onEsc", "mouseEnter", "mouseExit", "action"]
+dynamic_properties = ["exp_text", "exp_material", "visible_when", "exp_rect_x", "exp_rect_y", "exp_rect_h", "exp_rect_w", "exp_forecolor_r", "exp_forecolor_g", "exp_forecolor_b", "exp_forecolor_a"]
+item_actions = ["onOpen", "onClose", "onEsc", "onFocus", "mouseEnter", "mouseExit", "action"]
 item_properties = ["name", "rect", "decoration", "autowrapped", "visible", "ownerdraw", "style", "type", "forecolor", "blurWorld", "border", "bordercolor", "background", "textfont", "textalign", "textscale", "textstyle", "text"] + dynamic_properties + item_actions
 
 
@@ -14,7 +14,7 @@ def generate_setter(property_name):
     return setter
 
 class ItemDef:
-    def __init__(self, item='itemDef', name=None, rect=(0, 0, 640, 480, 0, 0), decoration=True, visible=True, style=1, forecolor=(1, 1, 1, 1)):
+    def __init__(self, item='itemDef', name=None, rect=(0, 0, 640, 480, 0, 0), decoration=True, visible=True, type=None, style=1, forecolor=(1, 1, 1, 1)):
         for p_name in item_properties:
             self.__add_property(p_name)
             setattr(self, p_name, None)
@@ -27,24 +27,27 @@ class ItemDef:
         self.decoration = decoration
         self.visible = visible
         self.style = style
+        self.type = type
         self.forecolor = forecolor
+        self.onFocus = SimpleItem('onFocus', 1)
         self.mouseEnter = SimpleItem('mouseEnter', 1)
         self.mouseExit = SimpleItem('mouseExit', 1)
         self.action = SimpleItem('action', 1)
         self._itemDefs = []
+
+    def blink(self, condition):
+        self.exp_forecolor_a = f'1 - ( ( {condition} ) * ( ( sin( localclientuimilliseconds( ) / 90 ) ) * 0.65 ) )'
+
+    def dynamicForecolor(self, index):
+        self.exp_forecolor_r = f'select(dvarInt("optionType{index}") < 2, 0, 1)'
+        self.exp_forecolor_g = f'select(dvarInt("optionType{index}") < 4, 0, select(dvarInt("optionType{index}") < 6, 1, 0.4))'
+        self.exp_forecolor_b = f'select(dvarInt("optionType{index}") == 4 || dvarInt("optionType{index}") == 5, 1, 0)'
 
     def add(self, ItemDef):
        self._itemDefs.append(ItemDef)
             
     def __add_property(self, property_name):
         setattr(ItemDef, property_name, property(generate_getter(property_name), generate_setter(property_name)))
-
-    def dynamicForeColor(self, index):
-        self.exp_forecolor_r = f'select(dvarInt("optionType{index}") < 2, 0, 1)'
-        self.exp_forecolor_g = f'select(dvarInt("optionType{index}") < 4, 0, select(dvarInt("optionType{index}") < 6, 1, 0.4))'
-        self.exp_forecolor_b = f'select(dvarInt("optionType{index}") == 4 || dvarInt("optionType{index}") == 5, 1, 0)'
-        self.exp_forecolor_a = f'1 - ( ( localVarInt("ui_index") == {index} ) * ( ( sin( localclientuimilliseconds( ) / 90 ) ) * 0.65 ) )'
-        self.visible_when = f'localVarString("menu_option{index}") != ""'
 
     def __str__(self):
         data = []
@@ -118,29 +121,54 @@ class MenuDef(ItemDef):
         self.add(item)
         return item
 
-    def addDynamicsOptions(self, start, offset, amount):
+    def addDynamicsOption(self, rect, offset, _range, start_index=0):
+        return [self.addDynamicOption(rect, i, offset) for i in range(start_index, _range)]
+
+    def addDynamicOption(self, rect, index, offset, start_index=0, decoration=0):
+        _rect = list(rect)
+        _rect[1] = (offset * (index - start_index)) + _rect[1]
+        
+        if not decoration:
+            option, onClick = self.addOption(_rect, index, localVarString(f'menu_option{index}'), 1, decoration)
+        else:
+            option = self.addOption(_rect, index, localVarString(f'menu_option{index}'), 1, decoration)
+
+        option.textalign = 10
+        option.dynamicForecolor(index)
+        option.visible_when = f'localVarString("menu_option{index}") != "@" && localVarString("menu_option{index}") != "@-" && dvarInt("menu_options_range") > {index}'
+
+        if not decoration:
+            onClick.visible_when = option.visible_when
+            return option, onClick        
+        return option
+
+    def addOptions(self, start, offset, amount, texts, exp=0, decoration=0):
         options = []        
         pos = start[1]
         for i in range(amount):
             _rect = list(start)
             _rect[1] = pos
-            options.append(self.addDynamicOption(_rect, i))
+            options.append(self.addOption(_rect, texts[i], exp, decoration))
             pos += offset
         return options
 
-    def addDynamicOption(self, _rect, i):
-        _text = localVarString(f'menu_option{i}')
+    def addOption(self, rect, index, text, exp=0, decoration=0):
+        option = self.addText(rect=rect, text=text, exp=exp)
+        option.blink(f'localVarInt("ui_index") == {index}')
+        option.visible_when = f'{text} != ""'
 
-        option = self.addText(rect=_rect, text=_text, exp=1)
-        option.dynamicForeColor(1)
-        option.mouseEnter.If(f'{_text} != ""', setLocalVarInt('ui_index', i), play('mouse_click'))
-        option.mouseExit.If(f'{_text} != ""', setLocalVarInt('ui_index', -1), play('mouse_click'))
+        if not decoration:
+            option.mouseEnter.set = (setLocalVarInt('ui_index', index), play('mouse_click'))
+            option.mouseExit.set = (setLocalVarInt('ui_index', -1), play('mouse_click'))
 
-        onClick = self.addItem(rect=_rect, decoration=0, forecolor=None)
-        onClick.action.If(f'{_text} != ""', scriptmenuresponse(localVarInt('ui_index')), play('mouse_click'))
-        onClick.action.set = setDvar('ui_startIndex', i)
-
-        return option, onClick
+            onClick = self.addItem(rect=rect, decoration=0, forecolor=None, style=None)
+            onClick.type = 1
+            onClick.action.set = (scriptmenuresponse(localVarInt('ui_index')), play('mouse_click'), setLocalVarInt('ui_index', index))
+            onClick.visible_when = option.visible_when
+            
+            return option, onClick
+        
+        return option
 
 class Image(ItemDef):
     def __init__(self, image=None, material=0, ownerdraw=None, **kwargs):
@@ -224,7 +252,6 @@ class SimpleItem():
         else:
             return self.header + '\n{\n    ' + '\n    '.join(self.lines) + '\n}'
 
-
 def exec(val):
     return f'exec "{val}";'
 
@@ -254,3 +281,6 @@ def dvarString(var):
     
 def scriptmenuresponse(val):
     return f'scriptmenuresponse {val};'
+
+def setfocus(val):
+    return f'setfocus "{val}";'
