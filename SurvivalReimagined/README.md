@@ -20,7 +20,7 @@
 - This version does not have bug fixes if you host it on a server, it may work but it may also have a variety of errors that will be printed on console :D
 
 # Download
-- MOD FILES: [IW5_SURVIVAL_REIMAGINED](https://github.com/LastDemon99/IW5_Sripts/releases/download/nbv1/z_nuke_bots.iwd)
+- MOD FILES: [IW5_SURVIVAL_REIMAGINED](https://github.com/LastDemon99/IW5_Mods/releases/download/iw5-mp-survival-v1.2/iw5-mp-survival-1.2.rar)
 
 # <a name="sponsor"></a>Sponsor
 If you like my work and wish to contribute:<br><br/>
