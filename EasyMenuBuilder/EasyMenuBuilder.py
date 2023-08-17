@@ -1,5 +1,5 @@
-dynamic_properties = ["exp_text", "exp_material", "visible_when", "exp_rect_x", "exp_rect_y", "exp_rect_h", "exp_rect_w", "exp_forecolor_r", "exp_forecolor_g", "exp_forecolor_b", "exp_forecolor_a"]
-item_actions = ["onOpen", "onClose", "onEsc", "onFocus", "mouseEnter", "mouseExit", "action"]
+dynamic_properties = ["exp_text", "exp_material", "visible_when", "disabled_when", "exp_rect_x", "exp_rect_y", "exp_rect_h", "exp_rect_w", "exp_forecolor_r", "exp_forecolor_g", "exp_forecolor_b", "exp_forecolor_a"]
+item_actions = ["execKeyInt", "onOpen", "onClose", "onEsc", "onFocus", "mouseEnter", "mouseExit", "action"]
 item_properties = ["name", "rect", "decoration", "autowrapped", "visible", "ownerdraw", "style", "type", "forecolor", "blurWorld", "border", "bordercolor", "background", "textfont", "textalign", "textscale", "textstyle", "text"] + dynamic_properties + item_actions
 
 
@@ -34,6 +34,7 @@ class ItemDef:
         self.mouseExit = SimpleItem('mouseExit', 1)
         self.action = SimpleItem('action', 1)
         self._itemDefs = []
+        self._execKeys = []
 
     def blink(self, condition):
         self.exp_forecolor_a = f'1 - ( ( {condition} ) * ( ( sin( localclientuimilliseconds( ) / 90 ) ) * 0.65 ) )'
@@ -42,6 +43,11 @@ class ItemDef:
         self.exp_forecolor_r = f'select(dvarInt("optionType{index}") < 2, 0, 1)'
         self.exp_forecolor_g = f'select(dvarInt("optionType{index}") < 4, 0, select(dvarInt("optionType{index}") < 6, 1, 0.4))'
         self.exp_forecolor_b = f'select(dvarInt("optionType{index}") == 4 || dvarInt("optionType{index}") == 5, 1, 0)'
+
+    def addExecKeyInt(self, value):
+        item = SimpleItem(f'execKeyInt {value}', 1)
+        self._execKeys.append(item)
+        return item
 
     def add(self, ItemDef):
        self._itemDefs.append(ItemDef)
@@ -54,6 +60,11 @@ class ItemDef:
         
         for name in item_properties:
             value = getattr(self, name)
+
+            if name == 'execKeyInt':
+                for i in self._execKeys:
+                    [data.append('    ' + j) for j in str(i).split('\n')]
+                continue
                 
             if value is None:
                 continue
@@ -129,16 +140,17 @@ class MenuDef(ItemDef):
         _rect[1] = (offset * (index - start_index)) + _rect[1]
         
         if not decoration:
-            option, onClick = self.addOption(_rect, index, localVarString(f'menu_option{index}'), 1, decoration)
+            option, onClick = self.addOption(_rect, index, dvarString(f'menu_option{index}'), 1, decoration)
         else:
-            option = self.addOption(_rect, index, localVarString(f'menu_option{index}'), 1, decoration)
+            option = self.addOption(_rect, index, dvarString(f'menu_option{index}'), 1, decoration)
 
         option.textalign = 10
         option.dynamicForecolor(index)
-        option.visible_when = f'localVarString("menu_option{index}") != "@" && localVarString("menu_option{index}") != "@-" && dvarInt("menu_options_range") > {index}'
+        option.visible_when = f'dvarstring("menu_option{index}") != "@" && dvarstring("menu_option{index}") != "@-" && dvarInt("menu_options_range") > {index}'
 
         if not decoration:
-            onClick.visible_when = option.visible_when
+            onClick.action = SimpleItem('action', 1)
+            onClick.action.If(option.visible_when + f' &&  dvarInt("optionType{index}") != 0 && dvarInt("optionType{index}") != 1', scriptmenuresponse(localVarInt('ui_index')), play('mouse_click'), setLocalVarInt('ui_index', index))
             return option, onClick        
         return option
 
@@ -158,14 +170,10 @@ class MenuDef(ItemDef):
         option.visible_when = f'{text} != ""'
 
         if not decoration:
-            option.mouseEnter.set = (setLocalVarInt('ui_index', index), play('mouse_click'))
-            option.mouseExit.set = (setLocalVarInt('ui_index', -1), play('mouse_click'))
-
-            onClick = self.addItem(rect=rect, decoration=0, forecolor=None, style=None)
-            onClick.type = 1
-            onClick.action.set = (scriptmenuresponse(localVarInt('ui_index')), play('mouse_click'), setLocalVarInt('ui_index', index))
-            onClick.visible_when = option.visible_when
-            
+            onClick = self.addItem(rect=rect, decoration=0, forecolor=None, style=None, type=1)
+            onClick.action.If(option.visible_when, scriptmenuresponse(localVarInt('ui_index')), play('mouse_click'), setLocalVarInt('ui_index', index))
+            onClick.mouseEnter.set = setLocalVarInt('ui_index', index), play('mouse_click')
+            onClick.mouseExit.set = setLocalVarInt('ui_index', -1), play('mouse_click')
             return option, onClick
         
         return option
@@ -284,3 +292,9 @@ def scriptmenuresponse(val):
 
 def setfocus(val):
     return f'setfocus "{val}";'
+
+def close(val):
+    return f'close {val};'
+
+def simulateKeyPress(key):
+    return f'uiScript simulateKeyPress {key};'
