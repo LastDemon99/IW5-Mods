@@ -28,7 +28,9 @@
 - Download modder version: [ModsPatch](https://github.com/LastDemon99/IW5-Mods/releases/download/mods-patch-v1.0/mod_implementation.rar)
 
 # <a name="credits"></a>Credits
-- LethalBeats Team
+- [OpenAssetTools](https://github.com/Laupetin/OpenAssetTools) for modding tools.
+- [Plutonium](https://github.com/plutoniummod) for mod load implementation.
+- LethalBeats 
 
 # <a name="sponsor"></a>Sponsor
 <a href="https://www.paypal.com/paypalme/lastdemon99/"><img src="https://github.com/LastDemon99/LastDemon99/blob/main/Data/paypal_dark.svg" height="60"></a>
